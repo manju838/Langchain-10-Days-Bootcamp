@@ -1,0 +1,36 @@
+# Everything RAGWire needs, in one file.
+#
+# Only the llm block needs an API key, and that model is free.
+# The embeddings run on your own CPU. The vector database runs in Docker.
+
+embeddings:
+  provider: fastembed                    # runs on your laptop, no API key
+  model_name: BAAI/bge-small-en-v1.5     # the same model you used on Day 9
+
+llm:
+  provider: openrouter                   # reads OPENROUTER_API_KEY from .env
+  model: nvidia/nemotron-3.5-lightning:free
+
+vectorstore:
+  url: http://localhost:6333             # the Qdrant container from docker-compose.yml
+  collection_name: filings_10k
+
+splitter:
+  strategy: page                         # one chunk per PDF page, never sub-split
+                                         # chunk_size and chunk_overlap do not apply
+
+metadata:
+  config_file: metadata.yaml             # the LLM reads each cover page at ingest
+
+ingestion:
+  dedup_chunks: true                     # filings repeat boilerplate, drop exact copies
+
+generation:
+  max_context_chars: 30000               # a 10-K page can run 6000 chars, and
+                                         # top_k of them have to fit in the prompt
+
+retriever:
+  search_type: similarity
+  top_k: 5                               # a page chunk is big, and the figure you
+                                         # want often sits below the first three
+  auto_filter: false                     # the agent picks the filters, not the pipeline

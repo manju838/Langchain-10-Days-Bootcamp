@@ -1,0 +1,21 @@
+# Qdrant, the vector database used on Days 9 and 10.
+#
+#   docker compose up -d      start it
+#   docker compose ps         check it is running
+#   docker compose down       stop it, keeping the data
+#
+# The dashboard is at http://localhost:6333/dashboard once it is up.
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: lc10-qdrant
+    ports:
+      - "6333:6333"     # REST API, the one the course uses
+      - "6334:6334"     # gRPC, not used here
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+volumes:
+  qdrant_storage:

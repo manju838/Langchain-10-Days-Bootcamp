@@ -1,0 +1,42 @@
+[project]
+name = "langchain-10-days"
+version = "1.0.0"
+description = "A 10 day beginner LangChain bootcamp that runs on a free API"
+readme = "README.md"
+# Pinned to 3.12, the version every notebook was verified on, and not a range.
+# uv downloads it automatically, so pinning costs a student nothing and means
+# everyone runs the same interpreter. On 3.14 langchain-core warns that its
+# Pydantic V1 compatibility layer no longer works, and that warning lands in
+# the output of any cell that builds a structured-output model.
+requires-python = ">=3.12,<3.13"
+authors = [{ name = "Laxmi Kant Tiwari", email = "laxmimerit@gmail.com" }]
+
+dependencies = [
+    # Days 1 to 9
+    "langchain==1.3.14",
+    "langchain-openrouter",
+    "python-dotenv",
+    # Day 6: memory that survives a kernel restart
+    "langgraph-checkpoint-sqlite",
+    # Days 9 and 10: text into vectors, and where the vectors live
+    "langchain-community",
+    "fastembed",
+    "langchain-qdrant",
+    "qdrant-client",
+    # Day 10: RAG in one config file
+    "ragwire[openrouter]",
+    # Running the notebooks
+    "jupyter",
+    "ipykernel",
+    # Makes Python trust the operating system's certificate store. Not imported
+    # anywhere in the course. It is here because on a machine behind a
+    # TLS-inspecting proxy, which is normal on a corporate laptop, every HTTPS
+    # call otherwise hangs until it times out. Cheap insurance, pure Python.
+    "truststore",
+    "ollama>=0.6.2",
+]
+
+[tool.uv]
+# Not a library. There is nothing here to build or install, only an
+# environment to reproduce, so uv should not try to package the project.
+package = false

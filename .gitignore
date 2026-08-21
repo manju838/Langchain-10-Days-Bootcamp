@@ -1,0 +1,16 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+notebooks/qdrant_data/
+notebooks/.rag_cache/
+notebooks/*.db
+.DS_Store
+
+# Instructor-only, not part of the bootcamp
+slideswork/
+tools/
+.claude/
+*.html
+node_modules/
