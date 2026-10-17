@@ -1,8 +1,58 @@
+<!-- markdownlint-disable-file -->
 # LangChain in 10 Days
 
-A beginner bootcamp that runs entirely on **free** AI APIs.
+A beginner bootcamp that runs entirely on **free** AI APIs. This is built on top of https://github.com/laxmimerit/Langchain-10-Days-Bootcamp.
 
-No paid account and no GPU. If you can write a `for` loop, you can do this.
+## Setup Instructions
+### 1. Get a free API key
+
+Go to **[openrouter.ai/keys](https://openrouter.ai/keys)**, sign in, and
+create a key. It starts with `sk-or-`.
+
+OpenRouter gives you access to many models through one key. The models
+this course uses end in `:free`, so you are not charged.
+
+> Free models have a daily limit. If a cell suddenly starts failing with a
+> **429**, you have hit it. Wait, or switch to another `:free` model.
+
+From **Day 7** you also need a second free key, for the web search tool:
+**[ollama.com/settings/keys](https://ollama.com/settings/keys)**. Days 1 to 6
+do not use it, so you can leave it until then.
+
+### 2. Installation
+```bash
+git clone https://github.com/manju838/Langchain-10-Days-Bootcamp.git
+cd Langchain-10-Days-Bootcamp
+
+# We use uv for package management
+uv sync # Creates the virtuaL env based on uv.lock file
+# To run things, just prefix uv run before your commands
+```
+
+### 3. Save your keys
+
+Copy `.env.example` to a new file called `.env`, and paste your keys in:
+
+```
+OPENROUTER_API_KEY=sk-or-...your key...
+OLLAMA_API_KEY=...your key...
+```
+
+`.env` is listed in `.gitignore`, so it will never be committed. `.env.example` is pushed to Github repo, showing which env variables should be present in `.env` file.
+
+**Never expose your api keys directly in your codebase**. Add them to `.env` file and to access these apikeys:
+```python
+# Read your .env file
+from dotenv import load_dotenv
+load_dotenv()
+
+# Get a certain apikey value
+import os
+os.getenv('OPENROUTER_API_KEY')
+```
+
+
+
 Days 9 and 10 use Docker to run the vector database, which is one command.
 
 > This course lives inside a larger training repo. Every command below runs
@@ -33,66 +83,6 @@ Docker for the vector database.
 
 ---
 
-## Setup, once
-
-### 1. Get a free API key
-
-Go to **[openrouter.ai/keys](https://openrouter.ai/keys)**, sign in, and
-create a key. It starts with `sk-or-`.
-
-OpenRouter gives you access to many models through one key. The models
-this course uses end in `:free`, so you are not charged.
-
-> Free models have a daily limit. If a cell suddenly starts failing with a
-> **429**, you have hit it. Wait, or switch to another `:free` model. It is
-> not your code.
-
-From **Day 7** you also need a second free key, for the web search tool:
-**[ollama.com/settings/keys](https://ollama.com/settings/keys)**. Days 1 to 6
-do not use it, so you can leave it until then.
-
-### 2. Install Python packages
-
-This project uses **[uv](https://docs.astral.sh/uv/)**. If you do not have it:
-
-```bash
-winget install astral-sh.uv
-```
-
-On macOS or Linux:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Then, from the project folder, one command does everything:
-
-```bash
-uv sync
-```
-
-That creates `.venv`, installs the right Python if you do not have it, and
-installs every package at the exact version recorded in `uv.lock`. You do not
-need to activate anything.
-
-Run things with `uv run`, which uses that environment without you activating
-anything:
-
-```bash
-uv run jupyter notebook notebooks
-```
-
-### 3. Save your keys
-
-Copy `.env.example` to a new file called `.env`, and paste your keys in:
-
-```
-OPENROUTER_API_KEY=sk-or-...your key...
-OLLAMA_API_KEY=...your key...
-```
-
-`.env` is listed in `.gitignore`, so it will never be committed. **Never
-paste a key into a notebook cell**, and never print one.
 
 ### 4. Start the vector database (needed from Day 9)
 
